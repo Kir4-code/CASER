@@ -22,7 +22,7 @@
 ### From Source:
 ```bash
 git clone https://github.com/Kir4-code/CASER.git
-cd CASER-Profile-Builder
+cd CASER
 pip install -r requirements.txt
 python main.py
 ```
