@@ -18,7 +18,7 @@ from datetime import datetime
 import sys
 
 
-# Настройка логирования
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -29,7 +29,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Константы приложения
+
 APP_NAME = "CASER Profile Builder"
 VERSION = "1.0.0"
 WINDOW_SIZE = "950x850"
@@ -38,13 +38,13 @@ COLOR_THEME = "dark-blue"
 
 
 class App(ctk.CTk):
-    """Главное окно приложения CASER."""
+    """Main window"""
     
     def __init__(self):
-        """Инициализация приложения."""
+        """Init"""
         super().__init__()
         
-        # Конфигурация окна
+        # Config
         self.title(f"{APP_NAME} v{VERSION}")
         self.geometry(WINDOW_SIZE)
 
@@ -53,25 +53,25 @@ class App(ctk.CTk):
         except:
             pass
         
-        # Настройка темы
+        # Theme
         ctk.set_appearance_mode(THEME_MODE)
         ctk.set_default_color_theme(COLOR_THEME)
         
-        # Установка иконки
+        # Icon
         self._set_window_icon()
         
-        # Инициализация данных
+        # Data init
         self.contacts = []
         self.photos = []
-        self.temp_files = []  # Для временных файлов
+        self.temp_files = []  
         
-        # Построение интерфейса
+       
         self._setup_ui()
         
-        # Центрирование окна
+        # Center
         self._center_window()
         
-        # Обработка закрытия окна
+        # Delete window
         self.protocol("WM_DELETE_WINDOW", self._on_closing)
         
         logger.info(f"{APP_NAME} v{VERSION} initialized")
@@ -79,10 +79,10 @@ class App(ctk.CTk):
     def _set_window_icon(self):
         """Устанавливает иконку окна."""
         icon_paths = [
-            "icon.ico",                                # В корне
-            os.path.join("icons", "icon.ico"),         # В папке icons
-            os.path.join(os.path.dirname(__file__), "..", "icon.ico"),  # На уровень выше
-            os.path.join(os.path.dirname(__file__), "icon.ico"),        # Рядом с main.py
+            "icon.ico",                                
+            os.path.join("icons", "icon.ico"),         
+            os.path.join(os.path.dirname(__file__), "..", "icon.ico"),  
+            os.path.join(os.path.dirname(__file__), "icon.ico"),        
         ]
         
         for icon_path in icon_paths:
@@ -96,7 +96,7 @@ class App(ctk.CTk):
                     continue
     
     def _center_window(self):
-        """Центрирует окно на экране."""
+        """Center again"""
         self.update_idletasks()
         width = self.winfo_width()
         height = self.winfo_height()
@@ -105,20 +105,18 @@ class App(ctk.CTk):
         self.geometry(f"{width}x{height}+{x}+{y}")
     
     def _setup_ui(self):
-        """Настраивает пользовательский интерфейс."""
-        # Хедер
+        # Header
         self._create_header()
         
-        # Основная форма
+        # Main form
         self._create_main_form()
     
     def _create_header(self):
-        """Создает верхнюю панель."""
         header = ctk.CTkFrame(self, height=80, corner_radius=0, fg_color="#1a1a1a")
         header.pack(fill="x", pady=(0, 10))
         header.pack_propagate(False)
         
-        # Логотип
+        # Logo
         logo_frame = ctk.CTkFrame(header, fg_color="transparent")
         logo_frame.pack(side="left", padx=25, pady=25)
         
@@ -141,7 +139,7 @@ class App(ctk.CTk):
             text_color="gray"
         ).pack(side="left")
         
-        # Кнопка сохранения
+        # Save
         self.save_btn = ctk.CTkButton(
             header,
             text="💾 SAVE PDF",
@@ -155,7 +153,6 @@ class App(ctk.CTk):
         self.save_btn.pack(side="right", padx=25, pady=17)
     
     def _create_main_form(self):
-        """Создает основную форму для ввода данных."""
         self.scroll_frame = ctk.CTkScrollableFrame(
             self,
             width=900,
@@ -164,25 +161,24 @@ class App(ctk.CTk):
         )
         self.scroll_frame.pack(padx=25, pady=10, fill="both", expand=True)
         
-        # Словарь для полей ввода
+        # Dict
         self.entries = {}
         
-        # Создание всех секций
+        # Sections
         self._create_personal_info_section()
         self._create_contacts_section()
         self._create_photos_section()
         self._create_custom_section()
     
     def _create_personal_info_section(self):
-        """Создает секцию персональной информации."""
-        # Заголовок секции
+        """Personal info"""
         ctk.CTkLabel(
             self.scroll_frame,
             text="👤 PERSONAL INFORMATION",
             font=ctk.CTkFont(size=16, weight="bold")
         ).pack(anchor="w", padx=20, pady=(20, 15))
         
-        # Поля ввода
+        # Fields
         fields = [
             ("Full Name", "John Smith"),
             ("Date of Birth", "01.01.1990"),
@@ -213,7 +209,7 @@ class App(ctk.CTk):
             key = label.lower().replace(" ", "_")
             self.entries[key] = entry
         
-        # Биография
+        # BIO
         ctk.CTkLabel(
             self.scroll_frame,
             text="📖 Biography:",
@@ -232,7 +228,7 @@ class App(ctk.CTk):
         )
         self.bio_text.pack(padx=20, fill="x", pady=(0, 15))
         
-        # Заметки
+        # Notes
         ctk.CTkLabel(
             self.scroll_frame,
             text="📝 Notes:",
@@ -252,14 +248,14 @@ class App(ctk.CTk):
         self.notes_text.pack(padx=20, fill="x", pady=(0, 20))
     
     def _create_contacts_section(self):
-        """Создает секцию контактов."""
+        """Contacts"""
         ctk.CTkLabel(
             self.scroll_frame,
             text="📞 CONTACTS",
             font=ctk.CTkFont(size=16, weight="bold")
         ).pack(anchor="w", padx=20, pady=(10, 15))
         
-        # Фрейм для управления контактами
+        # Contacts frame
         contacts_frame = ctk.CTkFrame(
             self.scroll_frame,
             fg_color="#3a3a3a",
@@ -267,7 +263,6 @@ class App(ctk.CTk):
         )
         contacts_frame.pack(padx=20, fill="x")
         
-        # Поле ввода нового контакта
         self.contact_entry = ctk.CTkEntry(
             contacts_frame,
             placeholder_text="Phone / Email / Social Media / Website",
@@ -280,7 +275,7 @@ class App(ctk.CTk):
         )
         self.contact_entry.pack(side="left", fill="x", expand=True, padx=10, pady=10)
         
-        # Кнопка добавления
+        # Add
         ctk.CTkButton(
             contacts_frame,
             text="➕ Add",
@@ -292,7 +287,7 @@ class App(ctk.CTk):
             command=self._add_contact
         ).pack(side="right", padx=10, pady=10)
         
-        # Список контактов
+        # Contacts list
         self.contacts_list = ctk.CTkTextbox(
             self.scroll_frame,
             width=850,
@@ -307,14 +302,14 @@ class App(ctk.CTk):
         self.contacts_list.pack(padx=20, pady=(10, 20), fill="x")
     
     def _create_photos_section(self):
-        """Создает секцию фотографий."""
+        """Photos"""
         ctk.CTkLabel(
             self.scroll_frame,
             text="🖼️ PHOTOS",
             font=ctk.CTkFont(size=16, weight="bold")
         ).pack(anchor="w", padx=20, pady=(10, 15))
         
-        # Фрейм для управления фотографиями
+        # Photos frame
         photos_frame = ctk.CTkFrame(
             self.scroll_frame,
             fg_color="#3a3a3a",
@@ -322,7 +317,7 @@ class App(ctk.CTk):
         )
         photos_frame.pack(padx=20, fill="x")
         
-        # Список фотографий
+        # Photos list
         self.photos_list = ctk.CTkTextbox(
             photos_frame,
             height=100,
@@ -335,7 +330,7 @@ class App(ctk.CTk):
         )
         self.photos_list.pack(side="left", fill="both", expand=True, padx=10, pady=10)
         
-        # Кнопки управления
+        # Buttons 
         btn_frame = ctk.CTkFrame(photos_frame, fg_color="transparent")
         btn_frame.pack(side="right", padx=10, pady=10, fill="y")
         
@@ -362,7 +357,7 @@ class App(ctk.CTk):
         ).pack()
     
     def _create_custom_section(self):
-        """Создает кастомную секцию."""
+        """Custom"""
         ctk.CTkLabel(
             self.scroll_frame,
             text="✨ ADDITIONAL INFORMATION",
@@ -382,7 +377,7 @@ class App(ctk.CTk):
         self.custom_text.pack(padx=20, fill="x", pady=(0, 30))
     
     def _add_contact(self):
-        """Добавляет новый контакт."""
+        """New contact"""
         contact = self.contact_entry.get().strip()
         
         if not contact:
@@ -400,7 +395,7 @@ class App(ctk.CTk):
         logger.info(f"Added contact: {contact}")
     
     def _update_contacts_list(self):
-        """Обновляет отображение списка контактов."""
+        """List"""
         self.contacts_list.configure(state="normal")
         self.contacts_list.delete("1.0", "end")
         
@@ -413,7 +408,7 @@ class App(ctk.CTk):
         self.contacts_list.configure(state="disabled")
     
     def _add_photo(self):
-        """Добавляет фотографию."""
+        """Add photo"""
         filetypes = [
             ("Image files", "*.jpg *.jpeg *.png *.bmp"),
             ("JPEG files", "*.jpg *.jpeg"),
@@ -437,7 +432,6 @@ class App(ctk.CTk):
             messagebox.showinfo("Duplicate", "This photo is already added.")
             return
         
-        # Проверяем размер файла (макс 10MB)
         file_size = os.path.getsize(photo_path) / (1024 * 1024)
         if file_size > 10:
             if not messagebox.askyesno("Large File", 
@@ -450,7 +444,7 @@ class App(ctk.CTk):
         logger.info(f"Added photo: {os.path.basename(photo_path)} ({file_size:.1f}MB)")
     
     def _update_photos_list(self):
-        """Обновляет отображение списка фотографий."""
+        """Photos list"""
         self.photos_list.configure(state="normal")
         self.photos_list.delete("1.0", "end")
         
@@ -465,7 +459,7 @@ class App(ctk.CTk):
         self.photos_list.configure(state="disabled")
     
     def _clear_photos(self):
-        """Очищает список фотографий."""
+        """Clear photos list"""
         if not self.photos:
             return
         
@@ -478,7 +472,7 @@ class App(ctk.CTk):
             logger.info("All photos cleared")
     
     def _collect_profile_data(self):
-        """Собирает все данные профиля."""
+        """DATA"""
         data = {
             "full_name": self.entries["full_name"].get().strip(),
             "date_of_birth": self.entries["date_of_birth"].get().strip(),
@@ -496,15 +490,14 @@ class App(ctk.CTk):
         return data
     
     def _generate_filename(self, full_name):
-        """Генерирует имя файла на основе ФИО."""
+        """Filename"""
         if not full_name:
             return f"profile_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
         
-        # Берем первую часть как фамилию
         name_parts = full_name.split()
         surname = name_parts[0] if name_parts else full_name
         
-        # Убираем запрещенные символы
+        # Clear chars
         invalid_chars = '<>:"/\\|?*'
         for char in invalid_chars:
             surname = surname.replace(char, '_')
@@ -513,12 +506,9 @@ class App(ctk.CTk):
         return f"{surname}_case_{timestamp}.pdf"
     
     def _save_profile(self):
-        """Сохраняет профиль в PDF."""
+        """Save as PDF"""
         try:
-            # Сбор данных
             data = self._collect_profile_data()
-            
-            # Проверка обязательных полей
             if not data["full_name"]:
                 messagebox.showwarning(
                     "Missing Information",
@@ -527,10 +517,8 @@ class App(ctk.CTk):
                 self.entries["full_name"].focus_set()
                 return
             
-            # Генерация имени файла
             default_filename = self._generate_filename(data["full_name"])
             
-            # Диалог сохранения
             save_path = filedialog.asksaveasfilename(
                 defaultextension=".pdf",
                 initialfile=default_filename,
@@ -542,12 +530,9 @@ class App(ctk.CTk):
             )
             
             if not save_path:
-                return  # Пользователь отменил
-            
-            # Создание PDF
+                return
+                
             self._create_pdf_document(data, save_path)
-            
-            # Успешное сохранение
             messagebox.showinfo(
                 "Success!",
                 f"✅ Profile saved successfully!\n\n"
@@ -567,12 +552,11 @@ class App(ctk.CTk):
             )
     
     def _create_pdf_document(self, data, save_path):
-        """Создает PDF документ из данных."""
+        """Create PDF"""
         doc = SimpleDocTemplate(save_path, pagesize=A4)
         styles = getSampleStyleSheet()
         story = []
-        
-        # Заголовок
+
         title = Paragraph(
             f"<b>PERSONAL PROFILE:</b> {data['full_name']}",
             styles['Title']
@@ -580,7 +564,6 @@ class App(ctk.CTk):
         story.append(title)
         story.append(Spacer(1, 0.3 * inch))
         
-        # Основная информация
         info_fields = [
             ("Date of Birth", data["date_of_birth"]),
             ("Position", data["position"]),
@@ -597,45 +580,37 @@ class App(ctk.CTk):
         
         story.append(Spacer(1, 0.3 * inch))
         
-        # Биография
         if data["biography"]:
             story.append(Paragraph("<b>Biography:</b>", styles['Heading2']))
             story.append(Paragraph(data["biography"], styles['Normal']))
             story.append(Spacer(1, 0.2 * inch))
         
-        # Заметки
         if data["notes"]:
             story.append(Paragraph("<b>Notes:</b>", styles['Heading2']))
             story.append(Paragraph(data["notes"], styles['Normal']))
             story.append(Spacer(1, 0.2 * inch))
         
-        # Контакты
         if data["contacts"]:
             story.append(Paragraph("<b>Contacts:</b>", styles['Heading2']))
             for contact in data["contacts"]:
                 story.append(Paragraph(f"• {contact}", styles['Normal']))
             story.append(Spacer(1, 0.2 * inch))
         
-        # Фотографии
         if data["photos"]:
             story.append(Paragraph("<b>Photos:</b>", styles['Heading2']))
             
             for photo_path in data["photos"]:
                 if os.path.exists(photo_path):
                     try:
-                        # Создание временной копии для ReportLab
                         with tempfile.NamedTemporaryFile(
                             suffix='.jpg',
                             delete=False
                         ) as temp_file:
                             img = PilImage.open(photo_path)
-                            # Конвертируем в RGB если нужно
                             if img.mode in ('RGBA', 'LA', 'P'):
                                 img = img.convert('RGB')
                             img.save(temp_file.name, 'JPEG', quality=85)
                             self.temp_files.append(temp_file.name)
-                            
-                            # Добавление изображения в PDF
                             story.append(
                                 Image(
                                     temp_file.name,
@@ -658,20 +633,15 @@ class App(ctk.CTk):
                                 styles['Italic']
                             )
                         )
-        
-        # Дополнительная информация
         if data["additional_info"]:
             story.append(Paragraph("<b>Additional Information:</b>", styles['Heading2']))
             story.append(Paragraph(data["additional_info"], styles['Normal']))
-        
-        # Сборка документа
         doc.build(story)
-        
-        # Очистка временных файлов
+
         self._cleanup_temp_files()
     
     def _cleanup_temp_files(self):
-        """Очищает временные файлы."""
+        """Cleanup temp files"""
         for temp_file in self.temp_files:
             try:
                 if os.path.exists(temp_file):
@@ -681,14 +651,14 @@ class App(ctk.CTk):
         self.temp_files.clear()
     
     def _on_closing(self):
-        """Обработчик закрытия окна."""
+        """Close window"""
         self._cleanup_temp_files()
         logger.info("Application closed")
         self.destroy()
 
 
 def main():
-    """Точка входа в приложение."""
+    """Open window"""
     try:
         app = App()
         app.mainloop()
@@ -703,4 +673,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
