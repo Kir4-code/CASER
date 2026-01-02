@@ -21,7 +21,7 @@
 
 ### From Source:
 ```bash
-git clone https://github.com/Kir4-code/CASER-Profile-Builder.git
+git clone https://github.com/Kir4-code/CASER.git
 cd CASER-Profile-Builder
 pip install -r requirements.txt
 python main.py
