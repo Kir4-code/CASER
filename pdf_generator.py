@@ -1,4 +1,3 @@
-```python
 """
 PDF Generator module for CASER Profile Builder.
 Separates PDF creation logic from the main application.
@@ -176,3 +175,4 @@ def create_pdf_from_profile(data, output_path):
     """Simplified function for creating PDF."""
     return PDFGenerator.create_profile_pdf(data, output_path)
 ```
+
